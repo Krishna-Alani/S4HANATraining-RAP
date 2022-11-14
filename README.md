@@ -1,6 +1,3 @@
-Build SAP Fiori Apps with the ABAP RESTful Application Programming Model
-
-
 ## Description
 
 Build SAP Fiori Apps with the ABAP RESTful Application Programming Model.  
