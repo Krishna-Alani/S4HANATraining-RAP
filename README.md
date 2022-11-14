@@ -2,7 +2,7 @@
 
 ## Description
 
-Training & Exercise material for ABAP RESTful Application Programming Model.  
+Training and Exercise material for ABAP RESTful Application Programming Model.  
 
 ## Overview
 
