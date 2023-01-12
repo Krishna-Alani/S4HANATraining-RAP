@@ -40,8 +40,7 @@ The **Fast Track** uses a tool to generate the artefacts of exercises 1-4. In th
 | [Exercise 8 - Determinations](exercises/ex8/) | [Exercise 8 - Determinations](exercises/ex8/) |
 | [Exercise 9 - Validations](exercises/ex9/) | [Exercise 9 - Validations](exercises/ex9/) |
 | [Exercise 10 - Authorizations (optional)](exercises/ex10/) | [Exercise 10 - Authorizations (optional)](exercises/ex10/) |
-| [Exercise 11 - RAP Unit Tests](exercises/ex10/) | [Exercise 11 - RAP Unit Tests](exercises/ex10/) |
-| [Exercise 11 - RAP Unit Tests](RAP%20Unit%20Test/ ) | [Exercise 11 - RAP Unit Tests](RAP Unit Test/)  |
+| [Exercise 11 - RAP Unit Tests](RAP%20Unit%20Test/ ) | [Exercise 11 - RAP Unit Tests](RAP%20Unit%20Test/)  |
 
 ## How to obtain support
 
