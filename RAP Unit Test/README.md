@@ -1,4 +1,4 @@
-# RAP400 - Writing ABAP Unit Tests for Apps built with the ABAP RESTful Application Programming Model (RAP)
+#Writing ABAP Unit Tests for Apps built with the ABAP RESTful Application Programming Model (RAP)
 Build and test modern Apps with the ABAP RESTful Application Programming Model (RAP)
 
 ## Description
@@ -71,6 +71,3 @@ Support for the content in this repository is available during the actual time o
 You can find further information on the ABAP RESTful Application Programming Model (RAP) here:
  - [Get Started with the ABAP RESTful Application Programming Model](https://blogs.sap.com/2019/10/25/getting-started-with-the-abap-restful-programming-model) - A collection of diverse getting started materials.   
  - Free openSAP course [Building Apps with the ABAP RESTful Application Programming Model](https://community.sap.com/topics/btp-abap-environment/rap-opensap) ([direct link](https://open.sap.com/courses/cp13) to the course) 
-
-## License
-Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved. This file is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSES/Apache-2.0.txt) file.
