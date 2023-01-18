@@ -252,23 +252,3 @@ A number range object will be used to determine the unique travel identifiers.
 
 </details>
 
-
-## Summary
-[^Top of page](#)
-
-Now that you've... 
-- defined the early numbering and the static feature control, 
-- implement the early numbering, and
-- preview and test the enhanced Fiori elements app,
-
-you can continue with the next exercise – **[Exercise 4: Enhance the BO Behavior – Determinations](../ex4/readme.md)**
-
----
-
-## Appendix
-[^Top of page](#)
-
-Find the source code for the behavior definition and behavior implementation class (aka behavior pool) of the _Travel_ entity in the [sources](sources) folder. Don't forget to replace all occurences of the placeholder `###` with your group ID.
-
-- ![document](images/doc.png) [CDS BDEF ZRAP100_R_TRAVELTP_###](sources/EX3_BDEF_ZRAP100_R_TRAVELTP.txt)
-- ![document](images/doc.png) [Class ZRAP100_BP_TRAVELTP_###](sources/EX3_CLASS_ZRAP100_BP_TRAVELTP.txt)
