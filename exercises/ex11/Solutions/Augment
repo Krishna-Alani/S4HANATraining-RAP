@@ -1,0 +1,27 @@
+CLASS lhc_Travel DEFINITION INHERITING FROM cl_abap_behavior_handler.
+  PRIVATE SECTION.
+
+    METHODS augment_create FOR MODIFY
+      IMPORTING entities FOR CREATE Travel.
+
+ENDCLASS.
+
+CLASS lhc_Travel IMPLEMENTATION.
+
+  METHOD augment_create.
+
+    DATA: travel_create TYPE TABLE FOR CREATE zi_travel_m_xx.
+
+    travel_create = CORRESPONDING #( entities ).
+    LOOP AT travel_create ASSIGNING FIELD-SYMBOL(<travel>).
+      <travel>-agency_id = '070012'.
+      <travel>-status  = 'O'.
+      <travel>-%control-agency_id = if_abap_behv=>mk-on.
+      <travel>-%control-status = if_abap_behv=>mk-on.
+    ENDLOOP.
+
+    MODIFY AUGMENTING ENTITIES OF zi_travel_m_xx ENTITY Travel CREATE FROM travel_create.
+  ENDMETHOD.
+
+
+ENDCLASS.

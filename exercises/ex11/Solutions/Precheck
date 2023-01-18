@@ -1,0 +1,52 @@
+CLASS lhc_Travel DEFINITION INHERITING FROM cl_abap_behavior_handler.
+  PRIVATE SECTION.
+
+    
+    METHODS precheck_create FOR PRECHECK
+      IMPORTING entities FOR CREATE Travel.
+
+ENDCLASS.
+
+CLASS lhc_Travel IMPLEMENTATION.
+
+
+  METHOD precheck_create.
+
+    LOOP AT entities INTO DATA(entity) WHERE TravelID IS NOT INITIAL.
+      APPEND VALUE #( %cid        = entity-%cid
+                      %is_draft   = entity-%is_draft
+                      %key        = entity-%key
+                      %create     = if_abap_behv=>mk-on ) TO failed-travel.
+      APPEND VALUE #( %cid        = entity-%cid
+                      %is_draft   = entity-%is_draft
+                      %key        = entity-%key
+                      %msg        = new_message_with_text(
+                                      severity = if_abap_behv_message=>severity-error
+                                      text     = 'The service does not support external numbering'
+                                    ) ) TO reported-travel.
+
+
+
+    ENDLOOP.
+
+
+    IF sy-uname = 'RAP-XX'. "Replace XX with your user
+      LOOP AT entities INTO DATA(entity1).
+      APPEND VALUE #( %cid        = entity1-%cid
+                      %is_draft   = entity1-%is_draft
+                      %key        = entity1-%key
+                      %create     = if_abap_behv=>mk-on ) TO failed-travel.
+
+        APPEND VALUE #( %cid        = entity1-%cid
+                          %is_draft   = entity1-%is_draft
+                          %key        = entity1-%key
+                          %msg        = new_message_with_text(
+                                          severity = if_abap_behv_message=>severity-error
+                                          text     = 'Not Authorized.'
+                                        ) ) TO reported-travel.
+      ENDLOOP.
+
+    ENDIF.
+  ENDMETHOD.
+
+ENDCLASS.
