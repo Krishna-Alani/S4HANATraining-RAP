@@ -1,7 +1,4 @@
-**Previous Step**
 
-
-[Draft Handling for semantic key based scenario](/docs/Managed%20Implementation/DraftSemanticKey/README.md)
 
 # Integrating Augment and Precheck in managed Business Objects
 * [Exercise 1 - Integrating Augment in Managed Business Objects](#exercise-1)
@@ -198,8 +195,4 @@ IF sy-uname = 'RAP-XX'. "Replace XX with your user
 
 #### Solution 
 Solution for this exercise can be found [here](/docs/Managed%20Implementation/Augment%20and%20Precheck/Solutions/Precheck)
-
-
-
-
 
