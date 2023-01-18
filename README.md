@@ -41,6 +41,7 @@ The **Fast Track** uses a tool to generate the artefacts of exercises 1-4. In th
 | [Exercise 9 - Validations](exercises/ex9/) | [Exercise 9 - Validations](exercises/ex9/) |
 | [Exercise 10 - Authorizations (optional)](exercises/ex10/) | [Exercise 10 - Authorizations (optional)](exercises/ex10/) |
 | [Exercise 11 - RAP Unit Tests](RAP%20Unit%20Test/ ) | [Exercise 11 - RAP Unit Tests](RAP%20Unit%20Test/)  |
+| [Exercise 12 - Precheck and Augmentation](exercises/ex11/) | [Exercise 11 - Precheck and Augmentation](exercises/ex11/) |
 
 ## How to obtain support
 
