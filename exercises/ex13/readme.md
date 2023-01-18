@@ -1,6 +1,4 @@
-**Previous Step**
 
-[Integrating Augment and Precheck in managed Business Objects](/docs/Managed%20Implementation/Augment%20and%20Precheck/README.md)
 
 # Using of Virtual Elements in CDS Projection Views and Hiding of field in Object Page
 
@@ -352,8 +350,3 @@ Click on enter or on save description is hidden.
 
 #### Solution 
 Solution for this exercise can be found [here](/docs/Managed%20Implementation/VirtualElement/Solutions/Exercise2)
-
-**Next Steps**
-
-[Integrating Additional Save and UnManaged Save in Managed Business Objects](/docs/Managed%20Implementation/AdditionalandUnManagedSave/readme.md)
-
