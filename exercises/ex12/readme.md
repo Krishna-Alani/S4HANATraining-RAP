@@ -1,4 +1,3 @@
-[Home - RAP100](../../#exercises)
 
 # Exercise 3: Enhance the BO Behavior – Early Numbering  
 
