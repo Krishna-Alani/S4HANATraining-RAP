@@ -199,10 +199,6 @@ IF sy-uname = 'RAP-XX'. "Replace XX with your user
 #### Solution 
 Solution for this exercise can be found [here](/docs/Managed%20Implementation/Augment%20and%20Precheck/Solutions/Precheck)
 
-**Next Steps**
-
-[Using of Virtual Elements in CDS Projection Views and Hiding of field in Object Page](/docs/Managed%20Implementation/VirtualElement/readme.md)
-
 
 
 
