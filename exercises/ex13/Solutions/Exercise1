@@ -1,0 +1,160 @@
+Booking projection CDS View:
+@EndUserText.label: 'Booking projection view'
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+
+@UI: {
+  headerInfo: { typeName: 'Booking',
+                typeNamePlural: 'Bookings',
+                title: { type: #STANDARD, value: 'BookingID' } } }
+
+@Search.searchable: true
+
+define view entity ZC_BOOKING_PROCESSOR_M_XX
+  as projection on ZI_BOOKING_M_XX
+{
+          @UI.facet: [ { id:            'Booking',
+                         purpose:       #STANDARD,
+                         type:          #IDENTIFICATION_REFERENCE,
+                         label:         'Booking',
+                         position:      10 }]
+
+          //      @Search.defaultSearchElement: true
+          //       @UI: { lineItem:       [ { position: 10, importance: #HIGH } ],
+          //             identification: [ { position: 10 } ] }
+  key     travel_id     as TravelID,
+
+          @UI: { lineItem:       [ { position: 20, importance: #HIGH } ],
+                 identification: [ { position: 20 } ] }
+          @Search.defaultSearchElement: true
+  key     booking_id    as BookingID,
+
+          @UI: { lineItem:       [ { position: 30, importance: #HIGH } ],
+                 identification: [ { position: 30 } ] }
+          booking_date  as BookingDate,
+
+          @UI: { lineItem:       [ { position: 40, importance: #HIGH } ],
+                 identification: [ { position: 40 } ] }
+          @Consumption.valueHelpDefinition: [{entity: {name: '/DMO/I_Customer', element: 'CustomerID' }}]
+          @Search.defaultSearchElement: true
+          customer_id   as CustomerID,
+
+          @UI: { lineItem:       [ { position: 50, importance: #HIGH } ],
+                 identification: [ { position: 50 } ],
+                  selectionField: [ { position: 10 } ] }
+          @Consumption.valueHelpDefinition: [{entity: {name: '/DMO/I_Carrier', element: 'AirlineID' }}]
+          @ObjectModel.text.element: ['CarrierName']
+          carrier_id    as CarrierID,
+          _Carrier.Name as CarrierName,
+
+          @UI: { lineItem:       [ { position: 60, importance: #HIGH } ],
+                 identification: [ { position: 60 } ],
+                 selectionField: [ { position: 10 } ]  }
+          @Consumption.valueHelpDefinition: [ {entity: {name: '/DMO/I_Flight', element: 'ConnectionID'},
+                                               additionalBinding: [ { localElement: 'FlightDate',   element: 'FlightDate'},
+                                                                    { localElement: 'CarrierID',    element: 'AirlineID'},
+                                                                    { localElement: 'FlightPrice',  element: 'Price'},
+                                                                    { localElement: 'CurrencyCode', element: 'CurrencyCode' } ] } ]
+          connection_id as ConnectionID,
+
+          @UI: { lineItem:       [ { position: 70, importance: #HIGH } ],
+                 identification: [ { position: 70 } ] ,
+                 selectionField: [ { position: 10 } ] }
+          @Consumption.valueHelpDefinition: [ {entity: {name: '/DMO/I_Flight', element: 'FlightDate' },
+                                               additionalBinding: [ { localElement: 'ConnectionID', element: 'ConnectionID'},
+                                                                    { localElement: 'CarrierID',    element: 'AirlineID'},
+                                                                    { localElement: 'FlightPrice',  element: 'Price' },
+                                                                    { localElement: 'CurrencyCode', element: 'CurrencyCode' }]}]
+          flight_date   as FlightDate,
+
+          @UI: { lineItem:       [ { position: 80, importance: #HIGH } ],
+                 identification: [ { position: 80 } ] }
+          @Semantics.amount.currencyCode: 'CurrencyCode'
+          flight_price  as FlightPrice,
+
+          @Consumption.valueHelpDefinition: [{entity: {name: 'I_Currency', element: 'Currency' }}]
+          currency_code as CurrencyCode,
+
+
+          @UI.hidden: true
+          lastchangedat as LastChangedAt, -- Take over from parent
+
+          @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_DAYS_TO_FLIGHT_XX'
+          @EndUserText.label: 'Days to Flight'
+          @EndUserText.quickInfo: 'Calculates the Relative Flight Date'
+
+ @UI: { lineItem:       [ { position: 80, importance: #HIGH } ] }
+
+  virtual DaysToFlight : abap.int2,
+
+          //      _Customer.FirstName,
+
+          /* Associations */
+          _Travel : redirected to parent ZC_TRAVEL_PROCESSOR_M_XX,
+          _Customer,
+          _Carrier
+
+
+}
+
+Class zcl_days_to_flight_xx
+CLASS zcl_days_to_flight_xx DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
+
+  PUBLIC SECTION.
+    INTERFACES if_sadl_exit_calc_element_read.
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+ENDCLASS.
+
+
+
+CLASS zcl_days_to_flight_xx IMPLEMENTATION.
+
+  METHOD if_sadl_exit_calc_element_read~get_calculation_info.
+    IF iv_entity <> 'ZC_BOOKING_PROCESSOR_M_XX'.
+*      RAISE EXCEPTION TYPE /dmo/cx_virtual_elements
+*        EXPORTING
+*          textid = /dmo/cx_virtual_elements=>entity_not_known
+*          entity = iv_entity.
+    ENDIF.
+
+    LOOP AT it_requested_calc_elements ASSIGNING FIELD-SYMBOL(<fs_calc_element>).
+      CASE <fs_calc_element>.
+        WHEN 'DAYSTOFLIGHT'.
+          APPEND 'FLIGHTDATE' TO et_requested_orig_elements.
+
+*        WHEN 'ANOTHERELEMENT'.
+*          APPEND '' ...
+
+        WHEN OTHERS.
+*          RAISE EXCEPTION TYPE /dmo/cx_virtual_elements
+*            EXPORTING
+*              textid  = /dmo/cx_virtual_elements=>virtual_element_not_known
+*              element = <fs_calc_element>
+*              entity  = iv_entity.
+      ENDCASE.
+    ENDLOOP.
+
+  ENDMETHOD.
+
+  METHOD if_sadl_exit_calc_element_read~calculate.
+
+     DATA(lv_today) = cl_abap_context_info=>get_system_date( ).
+
+    DATA lt_original_data TYPE STANDARD TABLE OF ZC_BOOKING_PROCESSOR_M_XX WITH DEFAULT KEY.
+    lt_original_data = CORRESPONDING #( it_original_data ).
+
+    LOOP AT lt_original_data ASSIGNING FIELD-SYMBOL(<fs_original_data>).
+      IF  <fs_original_data>-FlightDate IS NOT INITIAL.
+        <fs_original_data>-DaysToFlight =  <fs_original_data>-FlightDate - lv_today.
+      ENDIF.
+    ENDLOOP.
+
+    ct_calculated_data = CORRESPONDING #(  lt_original_data ).
+
+  ENDMETHOD.
+
+
+ENDCLASS.

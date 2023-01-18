@@ -1,0 +1,164 @@
+
+Travel Projection View:
+@EndUserText.label: 'Travel projection view'
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+
+@UI: {
+  headerInfo: { typeName: 'Travel', typeNamePlural: 'Travels', title: { type: #STANDARD, value: 'TravelID' } } }
+
+@UI.presentationVariant: [{sortOrder: [{by: 'TravelID', direction: #DESC }]}]
+
+@Search.searchable: true
+
+define root view entity ZC_TRAVEL_PROCESSOR_M_XX
+  as projection on zI_TRAVEL_M_XX
+{
+      @UI.facet: [ { id:              'Travel',
+                     purpose:         #STANDARD,
+                     type:            #IDENTIFICATION_REFERENCE,
+                     label:           'Travel',
+                     position:        10 },
+                   { id:              'Booking',
+                     purpose:         #STANDARD,
+                     type:            #LINEITEM_REFERENCE,
+                     label:           'Booking',
+                     position:        20,
+                     targetElement:   '_Booking'}]
+
+
+      @UI: {
+          lineItem:       [ { position: 10, importance: #HIGH } ],
+          identification: [ { position: 10, label: 'Travel ID [1,...,99999999]' } ],
+          selectionField: [ { position: 10 } ]  }
+      @Search.defaultSearchElement: true
+  key travel_id          as TravelID,
+
+      @UI: {
+          lineItem:       [ { position: 20, importance: #HIGH } ],
+          identification: [ { position: 20 } ],
+          selectionField: [ { position: 20 } ] }
+      //      @Consumption.valueHelpDefinition: [{ entity : {name: '/DMO/I_Agency', element: 'AgencyID'  } }]
+      @Consumption.valueHelpDefinition: [{ entity : {name: 'ZCE_AGENCY_XX', element: 'agency_id' } }]
+      @ObjectModel.text.element: ['AgencyName']
+      @Search.defaultSearchElement: true
+      agency_id          as AgencyID,
+      _Agency.Name       as AgencyName,
+
+      @UI: {
+          lineItem:       [ { position: 30, importance: #HIGH } ],
+          identification: [ { position: 30 } ],
+          selectionField: [ { position: 30 } ] }
+      @Consumption.valueHelpDefinition: [{ entity : {name: '/DMO/I_Customer', element: 'CustomerID'  } }]
+
+      @ObjectModel.text.element: ['CustomerName']
+      @Search.defaultSearchElement: true
+      customer_id        as CustomerID,
+      _Customer.LastName as CustomerName,
+
+      @UI: {
+          lineItem:       [ { position: 40, importance: #MEDIUM } ],
+          identification: [ { position: 40 } ] }
+      begin_date         as BeginDate,
+
+      @UI: {
+          lineItem:       [ { position: 41, importance: #MEDIUM } ],
+          identification: [ { position: 41 } ] }
+      end_date           as EndDate,
+
+
+      @UI: {
+          identification: [ { position: 42 } ] }
+      @Semantics.amount.currencyCode: 'CurrencyCode'
+      booking_fee        as BookingFee,
+
+      @UI: {
+          lineItem:       [ { position: 43, importance: #MEDIUM } ],
+          identification: [ { position: 43, label: 'Total Price' } ] }
+      @Semantics.amount.currencyCode: 'CurrencyCode'
+      total_price        as TotalPrice,
+
+      @Consumption.valueHelpDefinition: [{entity: {name: 'I_Currency', element: 'Currency' }}]
+      currency_code      as CurrencyCode,
+
+      @UI: {
+          lineItem:       [ { position: 50, importance: #HIGH },
+                            { type: #FOR_ACTION, dataAction: 'createTravelByTemplate', label: 'Create Travel by Template'  } ],
+          identification: [ { position: 45, label: 'Status [O(Open)|A(Accepted)|X(Canceled)]' } ] }
+      status             as TravelStatus,
+
+       @UI: { lineItem:       [ { position: 90, importance: #MEDIUM } ] ,
+         identification: [ { position: 90, hidden: #(testField) } ] }  
+
+      description        as Description,
+
+      @UI.hidden: true
+      lastchangedat      as LastChangedAt,
+      
+      @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_SHOWFIELD_XX'
+            virtual testField :abap_boolean,
+      
+
+      /* Associations */
+      _Booking : redirected to composition child ZC_BOOKING_PROCESSOR_M_XX,
+      _Agency,
+      _Customer
+}
+
+Class zcl_showfield_xx
+CLASS zcl_showfield_xx DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
+
+  PUBLIC SECTION.
+    INTERFACES if_sadl_exit_calc_element_read.
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+ENDCLASS.
+
+
+
+CLASS zcl_showfield_xx IMPLEMENTATION.
+  METHOD if_sadl_exit_calc_element_read~calculate.
+
+* Check the field for your condition and return either abap_true or abap_false for the
+* virtual field.
+
+    DATA lt_original_data TYPE STANDARD TABLE OF ZC_TRAVEL_PROCESSOR_M_XX WITH DEFAULT KEY.
+    lt_original_data = CORRESPONDING #( it_original_data ).
+
+
+    LOOP AT lt_original_data ASSIGNING FIELD-SYMBOL(<fs_original_data>).
+      <fs_original_data>-testField =    COND abap_boolean( WHEN <fs_original_data>-TotalPrice > 1000 THEN abap_true ELSE abap_false ).
+    ENDLOOP.
+
+    ct_calculated_data = CORRESPONDING #( lt_original_data ).
+
+
+  ENDMETHOD.
+
+
+  METHOD if_sadl_exit_calc_element_read~get_calculation_info.
+
+* Extract the field you want the field visibility to depend on
+
+*
+
+    IF iv_entity <> 'ZC_TRAVEL_PROCESSOR_M_XX'.
+*      RAISE EXCEPTION TYPE /dmo/cx_virtual_elements
+*        EXPORTING
+*          textid = /dmo/cx_virtual_elements=>entity_not_known
+*          entity = iv_entity.
+
+    ENDIF.
+
+    LOOP AT it_requested_calc_elements ASSIGNING FIELD-SYMBOL(<fs_calc_element>).
+      CASE <fs_calc_element>.
+        WHEN 'testField'.
+          APPEND 'TotalPrice' TO et_requested_orig_elements.
+          ...
+      ENDCASE.
+    ENDLOOP.
+  ENDMETHOD.
+ENDCLASS.
+
