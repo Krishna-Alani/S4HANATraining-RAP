@@ -1,5 +1,3 @@
-#### Previous Step
-[Defining Business Services Based on Approver Projections](/docs/Managed%20Implementation/DefiningBusinessServicesAM/README.md)
 
 # Defining the Custom CDS Entity
 * [Introduction](#introduction)
@@ -262,6 +260,4 @@ Enhance the manage BO entity
 2.	Add annotation for agency field for using custom entity as value help and activate.  
 ![Custom CDS Entity](images/25.png)
 
-#### Next Step
-[Go to next module: Testability](/docs/Testability/CDS-SQL%20Test%20Double%20Framework/readme.md)
 
