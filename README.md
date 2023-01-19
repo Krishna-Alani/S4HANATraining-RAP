@@ -45,6 +45,7 @@ The **Fast Track** uses a tool to generate the artefacts of exercises 1-4. In th
 | [Exercise 13 - Early and Late Numbering](exercises/ex12/) | [Exercise 13 - Early and Late Numbering](exercises/ex12/) |
 | [Exercise 14 - Virtual Elements](exercises/ex13/) | [Exercise 14 - Virtual Elements](exercises/ex13/) |
 | [Exercise 15 - CDS Custom Entity](exercises/ex14/) | [Exercise 15 - CDS Custom Entities](exercises/ex14/) |
+| [Exercise 15 - Additional and Unmanaged Save](exercises/ex15/) | [Exercise 15 - Additional and Unmanaged Save](exercises/ex15/) |
 
 ## How to obtain support
 
