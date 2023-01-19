@@ -1,6 +1,3 @@
-**Previous Step**
-
-[Developing Read-Only List Reporting Apps](/docs/Unmanaged%20Implementation/DevelopingReadOnlyListReport/README.md)
 
 # Developing Unmanaged Transactional Apps 
 * [Technical Remarks](#remarks)
@@ -758,11 +755,6 @@ draft determine action Prepare;
 Solution for this exercise can be found [Behaviour definition](/docs/Unmanaged%20Implementation/DevelopingUnmanagedTransactionalApp/Solutions/Exercise-9.abap)
 [Behaviour implementation class](/docs/Unmanaged%20Implementation/DevelopingUnmanagedTransactionalApp/Solutions/Exercise-9-impl.abap)
 
-
-
-**Next Steps**
-
-[Entity Manipulation Language](https://github.wdf.sap.corp/DevelopmentLearning/restful-abap/wiki)
 
 
 
