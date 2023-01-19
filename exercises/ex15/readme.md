@@ -1,6 +1,3 @@
-**Previous Step**
-
-[Using of Virtual Elements in CDS Projection Views and Hiding of field in Object Page](/docs/Managed%20Implementation/VirtualElement/readme.md)
 
 # Integrating Additional Save and UnManaged Save in Managed Business Objects
 * [Exercise 1 - Integrating Additional Save in Managed Business Objects](#exercise-1)
@@ -580,8 +577,3 @@ To eliminate the option that the unchanged fields are overwritten with default v
 
 #### Solution 
 Solution for this exercise can be found [here](https://github.wdf.sap.corp/DevelopmentLearning/restful-abap/blob/master/docs/Managed%20Implementation/AdditionalandUnManagedSave/Solutions/ZI_TRAVEL_M_XX.behav) and [here](https://github.wdf.sap.corp/DevelopmentLearning/restful-abap/blob/master/docs/Managed%20Implementation/AdditionalandUnManagedSave/Solutions/zcl_bp_travel_m_xx.class)
-
-
-#### Next Step
-
-[Defining Behavior definition for the Travel Approver BO Projection (BDEF Projection)](/docs/Managed%20Implementation/DefiningBehaviordefinitionAM/README.md)
