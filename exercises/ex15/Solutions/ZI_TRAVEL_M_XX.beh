@@ -1,0 +1,59 @@
+managed implementation in class zcl_bp_travel_m_xx unique;
+
+define behavior for ZI_TRAVEL_M_XX alias Travel
+persistent table /dmo/travel
+with additional save
+lock master
+//authorization master
+etag master lastchangedat
+{
+  create;
+  update;
+  delete;
+  association _Booking { create; }
+
+  action createTravelByTemplate result [1] $self;
+
+  // administrative fields: read only
+  field ( readonly ) lastchangedat, lastchangedby, createdat, createdby;
+
+  // mandatory fields that are required to create a travel
+  //  field ( mandatory ) agency_id, status, booking_fee, currency_code;
+
+  // dynamic field control
+  field ( features : instance ) travel_id;
+
+  // dynamic action control
+  action ( features : instance ) acceptTravel result [1] $self;
+  action ( features : instance ) rejectTravel result [1] $self;
+
+  validation validateCustomer on save { field customer_id; }
+  validation validateDates on save { field begin_date, end_date; }
+  validation validateStatus on save
+  { field status; }
+    //    determination calculateTotalFlightPrice on save { field currency_code; }
+
+
+  }
+
+  define behavior for ZI_BOOKING_M_XX alias booking
+  implementation in class zcl_bp_booking_m_xx unique
+  persistent table /dmo/booking
+  lock dependent ( travel_id = travel_id )
+  //authorization dependent( <local_field_name> = <target_field_name> )
+etag master lastchangedat
+  {
+    update;
+    delete;
+
+    // static field control
+    field ( mandatory ) carrier_id, connection_id, flight_date;
+      field ( readonly ) travel_id;
+
+    // dynamic field control
+    field ( features : instance ) booking_id, booking_date, customer_id;
+
+    determination calculateTotalFlightPrice on modify { field flight_price, currency_code; }
+
+
+  }
